@@ -1,33 +1,4 @@
-# NeoGPT-Recommender
-
-Idea behind this repository is to create a context-aware chatbot that can read from and update a Neo4j database.
-The Cypher is generated using GPT-4 endpoint, while the answers are generated with gpt-3.5-turbo model based on the information from the database.
-
-## Neo4j database
-
-The project uses the [Recommendation project](https://sandbox.neo4j.com/?usecase=recommendations) that is available as part of the Neo4j Sandbox.
-
-## Environment variables
-
-Make sure to populate the environment variables as shown in the `.env.example` file
-
-## Start the project
-
-Run the project using
-
-```
-docker-compose up
-```
-
-and then open the localhost:8501 address in your favourite browser
-
-![Chatbot](./chatbot.png)
-
-## Training examples for the english2cypher part
-
-You can use the following example to get an idea what this chatbot is capable of
-
-```
+examples = """
 # I don't like comedy
 MATCH (u:User {id: $userId}), (g:Genre {name:"Comedy"})
 MERGE (u)-[:DISLIKE_GENRE]->(g)
@@ -73,4 +44,4 @@ WITH otherMovie, count(*) AS count
 ORDER BY count DESC
 LIMIT 1
 RETURN {recommended_movie:otherMovie.title} AS result
-```
+"""
