@@ -66,9 +66,10 @@ user_input = get_text()
 
 
 if user_input:
-    cypher = generate_cypher(generate_context(user_input))
+    cypher = generate_cypher(generate_context(user_input, 'raw_generated'))
     # If not a valid Cypher statement
     if not "MATCH" in cypher:
+        print('No Cypher was returned')
         st.session_state.past.append(user_input)
         st.session_state.generated.append(
             cypher)
@@ -80,7 +81,7 @@ if user_input:
         # Harcode result limit to 10
         results = results[:10]
         answer = generate_response(generate_context(
-            f"Question was {user_input} and the response should include only information that is given here: {str(results)}", 'raw_generated'))
+            f"Question was {user_input} and the response should include only information that is given here: {str(results)}"))
         st.session_state.raw_generated.append(str(results))
         st.session_state.past.append(user_input)
         st.session_state.generated.append(answer),
