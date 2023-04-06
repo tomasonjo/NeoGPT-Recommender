@@ -35,5 +35,6 @@ def generate_response(messages):
 
 
 if __name__ == '__main__':
-    print(generate_response([{'actor': 'Sigourney Weaver', 'role': "Witch"}, {'actor': 'Holly Hunter', "role": "Assassin"}, {
-        'actor': 'Dermot Mulroney'}, {'actor': 'William McNamara'}]))
+    data = [{'actor': 'Sigourney Weaver', 'role': "Witch"}, {'actor': 'Holly Hunter', "role": "Assassin"}, {
+        'actor': 'Dermot Mulroney'}, {'actor': 'William McNamara'}]
+    print(generate_response([{'role': 'user', 'content': str(data)}]))

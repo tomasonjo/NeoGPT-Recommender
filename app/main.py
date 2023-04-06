@@ -5,7 +5,7 @@ from streamlit_chat import message
 
 from neo4j_driver import run_query
 from english2cypher import generate_cypher
-from neo4j2text import generate_response
+from graph2text import generate_response
 
 # Hardcoded UserID
 USER_ID = "Tomaz"

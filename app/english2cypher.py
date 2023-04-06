@@ -11,6 +11,7 @@ Example Cypher queries are: \n {examples} \n
 Do not response with any explanation or any other information except the Cypher query.
 You do not ever apologize and strictly generate cypher statements based of the provided Cypher examples.
 You need to update the database using an appropriate Cypher statement when a user mentions their likes or dislikes, or what they watched already.
+Do not provide any Cypher statements that can't be inferred from Cypher examples.
 """
 
 
@@ -26,7 +27,6 @@ def generate_cypher(messages):
         temperature=0.0
     )
     response = completions.choices[0].message.content
-    print(response)
     # If the model apologized, remove the first line
     if "apologi" in response:
         response = " ".join(response.split("\n")[1:])
@@ -40,5 +40,11 @@ def generate_cypher(messages):
 if __name__ == '__main__':
     print(generate_cypher([{'role': 'user', 'content': 'What are some good cartoon?'},
                            {'role': 'assistant', 'content': 'Shrek 3'},
-                           {'role': 'user', 'content': 'Which actors appeared in it?'}
+                           {'role': 'user',
+                               'content': 'Which actors appeared in it?'}
+                           ]))
+    print(generate_cypher([{'role': 'user', 'content': 'What are some good cartoon?'},
+                           {'role': 'assistant', 'content': 'Shrek 3'},
+                           {'role': 'user',
+                               'content': 'Who was the first person on the moon?'}
                            ]))
