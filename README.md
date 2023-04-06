@@ -6,6 +6,7 @@ The Cypher is generated using GPT-4 endpoint, while the answers are generated wi
 ## Neo4j database
 
 The project uses the [Recommendation project](https://sandbox.neo4j.com/?usecase=recommendations) that is available as part of the Neo4j Sandbox.
+If you want a local instance of Neo4j, you can restore a database dump that is available [here](https://github.com/neo4j-graph-examples/recommendations/tree/main/data).
 
 ## Environment variables
 
