@@ -1,5 +1,6 @@
 import os
 import openai
+from retry import retry
 
 from training import examples
 
@@ -15,6 +16,7 @@ Do not provide any Cypher statements that can't be inferred from Cypher examples
 """
 
 
+@retry(tries=2, delay=5)
 def generate_cypher(messages):
     messages = [
         {"role": "system", "content": system}
@@ -27,6 +29,11 @@ def generate_cypher(messages):
         temperature=0.0
     )
     response = completions.choices[0].message.content
+    # Sometime the models bypasses system prompt and returns
+    # data based on previous dialogue history
+    if not "MATCH" in response and "{" in response:
+        raise Exception(
+            "GPT bypassed system message and is returning response based on previous conversation history" + response)
     # If the model apologized, remove the first line
     if "apologi" in response:
         response = " ".join(response.split("\n")[1:])

@@ -1,12 +1,4 @@
 examples = """
-# I don't like comedy
-MATCH (u:User {id: $userId}), (g:Genre {name:"Comedy"})
-MERGE (u)-[:DISLIKE_GENRE]->(g)
-RETURN distinct {answer: 'noted'} AS result
-# I like comedy
-MATCH (u:User {id: $userId}), (g:Genre {name:"Comedy"})
-MERGE (u)-[:LIKE_GENRE]->(g)
-RETURN distinct {answer: 'noted'} AS result
 # I have already watched Top Gun
 MATCH (u:User {id: $userId}), (m:Movie {title:"Top Gun"})
 MERGE (u)-[:WATCHED]->(m)
