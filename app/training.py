@@ -13,14 +13,14 @@ WHERE NOT EXISTS {(u)-[:WATCHED]->(m)}
 RETURN {movie: m.title} AS result
 ORDER BY m.imdbRating DESC LIMIT 1
 # Who played in Top Gun?
-MATCH (m:Movie)<-[:ACTED_IN]-(a)
-RETURN {actor: a.name} AS result
+MATCH (m:Movie)<-[r:ACTED_IN]-(a)
+RETURN {actor: a.name, role: r.role} AS result
 # What is the plot of the Copycat movie?
 MATCH (m:Movie {title: "Copycat"})
 RETURN {plot: m.plot} AS result
 # Did Luis Guzmán appear in any other movies?
-MATCH (p:Person {name:"Luis Guzmán"})-[:ACTED_IN]->(movie)
-RETURN {movie: movie.title} AS result
+MATCH (p:Person {name:"Luis Guzmán"})-[r:ACTED_IN]->(movie)
+RETURN {movie: movie.title, role: r.role} AS result
 # Do you know of any matrix movies?
 MATCH (m:Movie)
 WHERE toLower(m.title) CONTAINS toLower("matrix")
