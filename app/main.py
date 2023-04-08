@@ -27,7 +27,7 @@ def generate_context(prompt, context_data='generated'):
         size = len(st.session_state['generated'])
         for i in range(max(size-3, 0), size):
             context.append(
-                {'role': 'user', 'content': st.session_state['past'][i]})
+                {'role': 'user', 'content': st.session_state['user_input'][i]})
             context.append(
                 {'role': 'assistant', 'content': st.session_state[context_data][i]})
     # Add the latest user prompt
@@ -35,16 +35,16 @@ def generate_context(prompt, context_data='generated'):
     return context
 
 
-# Storing the chat
+# Generated natural language
 if 'generated' not in st.session_state:
     st.session_state['generated'] = []
-
-if 'raw_generated' not in st.session_state:
-    st.session_state['raw_generated'] = []
-
-if 'past' not in st.session_state:
-    st.session_state['past'] = []
-
+# Neo4j database results
+if 'database_results' not in st.session_state:
+    st.session_state['database_results'] = []
+# User input
+if 'user_input' not in st.session_state:
+    st.session_state['user_input'] = []
+# Generated Cypher statements
 if 'cypher' not in st.session_state:
     st.session_state['cypher'] = []
 
@@ -66,24 +66,24 @@ user_input = get_text()
 
 
 if user_input:
-    cypher = generate_cypher(generate_context(user_input, 'raw_generated'))
+    cypher = generate_cypher(generate_context(user_input, 'database_results'))
     # If not a valid Cypher statement
     if not "MATCH" in cypher:
         print('No Cypher was returned')
-        st.session_state.past.append(user_input)
+        st.session_state.user_input.append(user_input)
         st.session_state.generated.append(
             cypher)
         st.session_state.cypher.append(
             "No Cypher statement was generated")
-        st.session_state.raw_generated.append("")
+        st.session_state.database_results.append("")
     else:
         results = run_query(cypher, {'userId': USER_ID})
         # Harcode result limit to 10
         results = results[:10]
         answer = generate_response(generate_context(
             f"Question was {user_input} and the response should include only information that is given here: {str(results)}"))
-        st.session_state.raw_generated.append(str(results))
-        st.session_state.past.append(user_input)
+        st.session_state.database_results.append(str(results))
+        st.session_state.user_input.append(user_input)
         st.session_state.generated.append(answer),
         st.session_state.cypher.append(cypher)
 
@@ -94,7 +94,7 @@ with placeholder.container():
         size = len(st.session_state['generated'])
         # Display only the last three exchanges
         for i in range(max(size-3, 0), size):
-            message(st.session_state['past'][i],
+            message(st.session_state['user_input'][i],
                     is_user=True, key=str(i) + '_user')
             message(st.session_state["generated"][i], key=str(i))
 
