@@ -33,8 +33,7 @@ def generate_cypher(messages):
     # Sometime the models bypasses system prompt and returns
     # data based on previous dialogue history
     if not "MATCH" in response and "{" in response:
-        raise Exception(
-            "GPT bypassed system message and is returning response based on previous conversation history" + response)
+        print("Warning: GPT bypassed system message and is returning response based on previous conversation history")
     # If the model apologized, remove the first line
     if "apologi" in response:
         response = " ".join(response.split("\n")[1:])
@@ -45,14 +44,14 @@ def generate_cypher(messages):
     return response
 
 
-if __name__ == '__main__':
-    print(generate_cypher([{'role': 'user', 'content': 'What are some good cartoon?'},
-                           {'role': 'assistant', 'content': 'Shrek 3'},
-                           {'role': 'user',
-                               'content': 'Which actors appeared in it?'}
-                           ]))
-    print(generate_cypher([{'role': 'user', 'content': 'What are some good cartoon?'},
-                           {'role': 'assistant', 'content': 'Shrek 3'},
-                           {'role': 'user',
-                               'content': 'Who was the first person on the moon?'}
-                           ]))
+# if __name__ == '__main__':
+#     print(generate_cypher([{'role': 'user', 'content': 'What are some good cartoon?'},
+#                            {'role': 'assistant', 'content': 'Shrek 3'},
+#                            {'role': 'user',
+#                                'content': 'Which actors appeared in it?'}
+#                            ]))
+#     print(generate_cypher([{'role': 'user', 'content': 'What are some good cartoon?'},
+#                            {'role': 'assistant', 'content': 'Shrek 3'},
+#                            {'role': 'user',
+#                                'content': 'Who was the first person on the moon?'}
+#                            ]))

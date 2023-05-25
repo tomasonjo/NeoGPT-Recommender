@@ -8,7 +8,11 @@ from english2cypher import generate_cypher
 from graph2text import generate_response
 
 # Hardcoded UserID
-USER_ID = "Tomaz"
+USER_ID = "abizer"
+
+# Custom emoji characters
+USER_EMOJI = "You"
+RESPONSE_EMOJI = "LawCareer"
 
 # On the first execution, we have to create a user node in the database.
 run_query("""
@@ -16,7 +20,7 @@ MERGE (u:User {id: $userId})
 """, {'userId': USER_ID})
 
 st.set_page_config(layout="wide")
-st.title("NeoGPT with context : GPT-4 + Neo4j")
+st.title("LawCareer NeoGPT")
 
 
 def generate_context(prompt, context_data='generated'):
@@ -65,8 +69,10 @@ with col1:
 user_input = get_text()
 
 
+
 if user_input:
     cypher = generate_cypher(generate_context(user_input, 'database_results'))
+    print('cypher=',cypher)
     # If not a valid Cypher statement
     if not "MATCH" in cypher:
         print('No Cypher was returned')
@@ -76,6 +82,7 @@ if user_input:
         st.session_state.cypher.append(
             "No Cypher statement was generated")
         st.session_state.database_results.append("")
+
     else:
         # Query the database, user ID is hardcoded
         results = run_query(cypher, {'userId': USER_ID})
@@ -94,8 +101,8 @@ if user_input:
 with placeholder.container():
     if st.session_state['generated']:
         size = len(st.session_state['generated'])
-        # Display only the last three exchanges
-        for i in range(max(size-3, 0), size):
+        # Display only the last six exchanges
+        for i in range(max(size-6, 0), size):
             message(st.session_state['user_input'][i],
                     is_user=True, key=str(i) + '_user')
             message(st.session_state["generated"][i], key=str(i))

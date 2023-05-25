@@ -19,7 +19,7 @@ def generate_response(messages):
     print(messages)
     # Make a request to OpenAI
     completions = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4",
         messages=messages,
         temperature=0.0
     )
@@ -34,7 +34,7 @@ def generate_response(messages):
     return response
 
 
-if __name__ == '__main__':
-    data = [{'actor': 'Sigourney Weaver', 'role': "Witch"}, {'actor': 'Holly Hunter', "role": "Assassin"}, {
-        'actor': 'Dermot Mulroney'}, {'actor': 'William McNamara'}]
-    print(generate_response([{'role': 'user', 'content': str(data)}]))
+# if __name__ == '__main__':
+#     data = [{'actor': 'Sigourney Weaver', 'role': "Witch"}, {'actor': 'Holly Hunter', "role": "Assassin"}, {
+#         'actor': 'Dermot Mulroney'}, {'actor': 'William McNamara'}]
+#     print(generate_response([{'role': 'user', 'content': str(data)}]))
