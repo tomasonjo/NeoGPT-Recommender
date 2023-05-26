@@ -14,6 +14,7 @@ COPY ./requirements.txt /app/requirements.txt
 RUN pip3 install -r requirements.txt
 
 COPY ./app/* /app/
+COPY .streamlit/secrets.toml /app/.streamlit/secrets.toml
 
 EXPOSE 8501
 

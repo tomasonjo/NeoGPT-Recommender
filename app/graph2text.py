@@ -1,7 +1,7 @@
-import os
 import openai
+import streamlit as st
 
-openai.api_key = os.environ.get('OPENAI_KEY')
+openai.api_key=st.secrets.db_credentials.OPENAI_KEY
 
 system = f"""
 You are an assistant that helps to generate text to form nice and human understandable answers based.

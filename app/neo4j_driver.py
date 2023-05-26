@@ -1,9 +1,10 @@
 import os
 from neo4j import GraphDatabase
+import streamlit as st
 
-host = os.environ.get('NEO4J_URL')
-user = os.environ.get('NEO4J_USER')
-password = os.environ.get('NEO4J_PASS')
+host = st.secrets.db_credentials.NEO4J_URL
+user = st.secrets.db_credentials.NEO4J_USER
+password = st.secrets.db_credentials.NEO4J_PASS
 driver = GraphDatabase.driver(host, auth=(user, password))
 
 

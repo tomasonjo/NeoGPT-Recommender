@@ -1,10 +1,10 @@
-import os
 import openai
 from retry import retry
+import streamlit as st
 
 from training import examples
 
-openai.api_key = os.environ.get('OPENAI_KEY')
+openai.api_key=st.secrets.db_credentials.OPENAI_KEY
 
 system = f"""
 You are an assistant with an ability to generate Cypher queries based off example Cypher queries.
