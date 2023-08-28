@@ -120,4 +120,48 @@ MATCH (a2)-[:IS]-(status:Status) where status.OriginalName IN ['Newly added to t
 MATCH (a2: Applicant) where a2.Undergrad='SETON HALL U'
 return a2, s
 LIMIT 25
+# What is the personal email for Joshua Spielman?
+MATCH(a:Applicant) where a.LastName ='Spielman' and a.FirstName ='Joshua'
+MATCH (a)-[:IS]-(status:Status)
+WHERE status.OriginalName IN ['Newly added to the database', 'Recently changed', 'Not Changed', 'Lateral move', 'Lateral Move*', 'Newly Hired Graduates', 'Moved due to merger', 'SECONDMENT']
+Return a.Email
+LIMIT 1
+# What is the personal email for Samuel Lipson?
+MATCH(a:Applicant) where a.LastName ='Lipson' and a.FirstName ='Samuel'
+MATCH (a)-[:IS]-(status:Status)
+WHERE status.OriginalName IN ['Newly added to the database', 'Recently changed', 'Not Changed', 'Lateral move', 'Lateral Move*', 'Newly Hired Graduates', 'Moved due to merger', 'SECONDMENT']
+Return a.Email
+LIMIT 1
+# What is the cell phone number for Joshua Spielman?
+MATCH(a:Applicant) where a.LastName ='Spielman' and a.FirstName ='Joshua'
+MATCH (a)-[:IS]-(status:Status)
+WHERE status.OriginalName IN ['Newly added to the database', 'Recently changed', 'Not Changed', 'Lateral move', 'Lateral Move*', 'Newly Hired Graduates', 'Moved due to merger', 'SECONDMENT']
+Return a.Phone
+LIMIT 1
+# What is the cell phone number for Samuel Lipson?
+MATCH(a:Applicant) where a.LastName ='Lipson' and a.FirstName ='Samuel'
+MATCH (a)-[:IS]-(status:Status)
+WHERE status.OriginalName IN ['Newly added to the database', 'Recently changed', 'Not Changed', 'Lateral move', 'Lateral Move*', 'Newly Hired Graduates', 'Moved due to merger', 'SECONDMENT']
+Return a.Phone
+LIMIT 1
+# Which candidates speak 2 or more languages at law firm Gibbons?
+MATCH (lf:LawFirm {Name: 'Gibbons'})<-[:WORKS_AT]-(a:Applicant)
+MATCH (a)-[:IS]-(status:Status)
+WHERE status.OriginalName IN ['Newly added to the database', 'Recently changed', 'Not Changed', 'Lateral move', 'Lateral Move*', 'Newly Hired Graduates', 'Moved due to merger', 'SECONDMENT']
+WITH a, lf
+MATCH (a)-[:SPEAKS]->(l:Language)
+WITH a, lf, COLLECT(l) AS languages
+WHERE SIZE(languages) >= 2
+RETURN a.FirstName, a.LastName, SIZE(languages) AS numLanguages, lf.Name AS LawFirmName
+LIMIT 10;
+# Which candidates speak 2 or more languages at law firm Morris Manning & Martin LLP?
+MATCH (lf:LawFirm {Name: 'Morris Manning & Martin LLP'})<-[:WORKS_AT]-(a:Applicant)
+MATCH (a)-[:IS]-(status:Status)
+WHERE status.OriginalName IN ['Newly added to the database', 'Recently changed', 'Not Changed', 'Lateral move', 'Lateral Move*', 'Newly Hired Graduates', 'Moved due to merger', 'SECONDMENT']
+WITH a, lf
+MATCH (a)-[:SPEAKS]->(l:Language)
+WITH a, lf, COLLECT(l) AS languages
+WHERE SIZE(languages) >= 2
+RETURN a.FirstName, a.LastName, SIZE(languages) AS numLanguages, lf.Name AS LawFirmName
+LIMIT 10;
 """
