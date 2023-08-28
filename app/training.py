@@ -1,4 +1,39 @@
 examples = """
+# What honor has Sarah Primrose received?
+MATCH (a:Applicant)
+WHERE a.LastName = 'Primrose' AND a.FirstName = 'Sarah'
+MATCH (a)-[:HAS]-(h:Honor)
+RETURN h;
+# What honor has Michael Sutton received?
+MATCH (a:Applicant)
+WHERE a.LastName = 'Sutton' AND a.FirstName = 'Michael'
+MATCH (a)-[:HAS]-(h:Honor)
+RETURN h;
+# What honor has Sean Withall received?
+MATCH (a:Applicant)
+WHERE a.LastName = 'Withall' AND a.FirstName = 'Sean'
+MATCH (a)-[:HAS]-(h:Honor)
+RETURN h;
+# What state bar has Michael Sutton been admitted to?
+MATCH (a:Applicant)
+WHERE a.LastName = 'Sutton' AND a.FirstName = 'Michael'
+MATCH (a)-[:ADMITTED_BY]-(bar:Admission)
+RETURN bar.OriginalName;
+# What state bar has Sarah Primrose been admitted to?
+MATCH (a:Applicant)
+WHERE a.LastName = 'Primrose' AND a.FirstName = 'Sarah'
+MATCH (a)-[:ADMITTED_BY]-(bar:Admission)
+RETURN bar.OriginalName;
+# What state bar has Philip Wong been admitted to?
+MATCH (a:Applicant)
+WHERE a.LastName = 'Wong' AND a.FirstName = 'Philip'
+MATCH (a)-[:ADMITTED_BY]-(bar:Admission)
+RETURN bar.OriginalName;
+# What state bar has Samuel Lipson been admitted to?
+MATCH (a:Applicant)
+WHERE a.LastName = 'Lipson' AND a.FirstName = 'Samuel'
+MATCH (a)-[:ADMITTED_BY]-(bar:Admission)
+RETURN bar.OriginalName;
 # Which law school did Joshua Spielman study at?
 MATCH(a2:Applicant) where a2.LastName ='Spielman' and a2.FirstName ='Joshua'
 MATCH (a2)-[:IS]-(status:Status) where status.OriginalName IN ['Newly added to the database','Recently changed','Not Changed','Lateral move','Lateral Move*','Newly Hired Graduates','Moved due to merger' ,'SECONDMENT']
@@ -146,22 +181,16 @@ Return a.Phone
 LIMIT 1
 # Which candidates speak 2 or more languages at law firm Gibbons?
 MATCH (lf:LawFirm {Name: 'Gibbons'})<-[:WORKS_AT]-(a:Applicant)
-MATCH (a)-[:IS]-(status:Status)
-WHERE status.OriginalName IN ['Newly added to the database', 'Recently changed', 'Not Changed', 'Lateral move', 'Lateral Move*', 'Newly Hired Graduates', 'Moved due to merger', 'SECONDMENT']
-WITH a, lf
 MATCH (a)-[:SPEAKS]->(l:Language)
 WITH a, lf, COLLECT(l) AS languages
 WHERE SIZE(languages) >= 2
-RETURN a.FirstName, a.LastName, SIZE(languages) AS numLanguages, lf.Name AS LawFirmName
+RETURN a.FirstName, a.LastName
 LIMIT 10;
 # Which candidates speak 2 or more languages at law firm Morris Manning & Martin LLP?
 MATCH (lf:LawFirm {Name: 'Morris Manning & Martin LLP'})<-[:WORKS_AT]-(a:Applicant)
-MATCH (a)-[:IS]-(status:Status)
-WHERE status.OriginalName IN ['Newly added to the database', 'Recently changed', 'Not Changed', 'Lateral move', 'Lateral Move*', 'Newly Hired Graduates', 'Moved due to merger', 'SECONDMENT']
-WITH a, lf
 MATCH (a)-[:SPEAKS]->(l:Language)
 WITH a, lf, COLLECT(l) AS languages
 WHERE SIZE(languages) >= 2
-RETURN a.FirstName, a.LastName, SIZE(languages) AS numLanguages, lf.Name AS LawFirmName
+RETURN a.FirstName, a.LastName
 LIMIT 10;
 """
