@@ -154,7 +154,7 @@ MATCH (s:School)-[:STUDIED_AT]-(a2:Applicant) WHERE s.OriginalName ='Rutgers'
 MATCH (a2)-[:IS]-(status:Status) where status.OriginalName IN ['Newly added to the database','Recently changed','Not Changed','Lateral move','Lateral Move*','Newly Hired Graduates','Moved due to merger' ,'SECONDMENT']
 MATCH (a2: Applicant) where a2.Undergrad='SETON HALL U'
 return a2, s
-LIMIT 25
+LIMIT 20
 # What is Joshua Spielman's personal email address?
 MATCH(a:Applicant) where a.LastName ='Spielman' and a.FirstName ='Joshua'
 MATCH (a)-[:IS]-(status:Status)
